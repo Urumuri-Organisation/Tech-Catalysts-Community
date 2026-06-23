@@ -199,7 +199,6 @@ export default function RedesignedLandingPage() {
             <span className="font-bold tracking-tight text-lg text-zinc-800">
               FACULTY AFFILIATED
             </span>{" "}
-            [cite: 139]
             <span className="font-semibold tracking-tight text-lg text-zinc-800">
               INNOVATION LABS
             </span>
@@ -408,7 +407,6 @@ export default function RedesignedLandingPage() {
 
       {/* 6. EMOTIONAL CLOSING CTA */}
       <section className="py-24 bg-zinc-900 text-white relative isolate overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:32px_32px] opacity-40" />
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight">
             Your Future in Technology Starts Here.

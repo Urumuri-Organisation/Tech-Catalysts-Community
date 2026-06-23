@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import { Rubik } from "next/font/google";
 import "@/styles/globals.css";
 
-export const metadata: Metadata = {
-  title: "The Tech Catalyst Community | TCC",
-  description:
-    "Fostering technical innovation, advanced bootcamps, coding hackathons, and real-world project incubation at the university level.",
-  // ... (keep your existing metadata)
-};
+// Configure Rubik with explicit subsetting and CSS variable generation
+const rubik = Rubik({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-rubik",
+  display: "swap", // Guarantees text stays visible during download phases
+});
 
 export default function RootLayout({
   children,

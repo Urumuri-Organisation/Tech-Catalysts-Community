@@ -20,23 +20,26 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <motion.header 
-      initial={{ y: -20, opacity: 0 }}
+    <motion.header
+      initial={{ y: -10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="sticky top-0 z-50 w-full border-b border-zinc-800/50 bg-zinc-950/70 backdrop-blur-md"
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md"
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center space-x-2 group">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 transition-transform group-hover:rotate-12 duration-300" />
-          <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+          <div className="h-8 w-8 rounded bg-green-600 transition-transform group-hover:scale-105 duration-300" />
+          <span className="font-bold text-xl tracking-tight text-slate-900">
             TCC
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-1" onMouseLeave={() => setHoveredIdx(null)}>
+        <nav
+          className="hidden md:flex items-center space-x-1"
+          onMouseLeave={() => setHoveredIdx(null)}
+        >
           {navItems.map((item, idx) => {
             const isActive = pathname === item.href;
             return (
@@ -44,16 +47,18 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-md",
-                  isActive ? "text-cyan-400" : "text-zinc-400 hover:text-white"
+                  "relative px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full",
+                  isActive
+                    ? "text-green-700"
+                    : "text-slate-600 hover:text-slate-900",
                 )}
                 onMouseEnter={() => setHoveredIdx(idx)}
               >
                 {hoveredIdx === idx && (
                   <motion.span
                     layoutId="navHover"
-                    className="absolute inset-0 bg-zinc-800/40 rounded-md -z-10"
-                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    className="absolute inset-0 bg-slate-100 rounded-full -z-10"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
                 {item.name}
@@ -65,10 +70,10 @@ export default function Navbar() {
         {/* Call to Action Button */}
         <div className="hidden md:flex items-center">
           <Link href="/incubator">
-            <motion.button 
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="relative px-4 py-2 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-lg shadow-cyan-500/10 transition-all duration-200"
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-5 py-2 rounded-full text-sm font-semibold text-white bg-green-600 hover:bg-green-700 transition-colors shadow-sm"
             >
               Join Portal
             </motion.button>
@@ -76,15 +81,30 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Menu Toggle */}
-        <button 
-          onClick={() => setMobileOpen(!mobileOpen)} 
-          className="md:hidden text-zinc-400 hover:text-white focus:outline-none"
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden text-slate-600 hover:text-slate-900 focus:outline-none"
         >
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
             {mobileOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             )}
           </svg>
         </button>
@@ -93,11 +113,11 @@ export default function Navbar() {
       {/* Mobile Drawer */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-b border-zinc-800 bg-zinc-950 px-4 py-4 space-y-2"
+            className="md:hidden border-b border-slate-100 bg-white px-4 py-4 space-y-2"
           >
             {navItems.map((item) => (
               <Link
@@ -106,7 +126,9 @@ export default function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className={cn(
                   "block px-3 py-2 rounded-md text-base font-medium",
-                  pathname === item.href ? "bg-zinc-900 text-cyan-400" : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                  pathname === item.href
+                    ? "bg-slate-50 text-green-700"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
                 )}
               >
                 {item.name}
