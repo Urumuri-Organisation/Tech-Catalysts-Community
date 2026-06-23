@@ -103,7 +103,7 @@ export default function RedesignedLandingPage() {
   }, []);
 
   return (
-    <div className="bg-white text-zinc-900 selection:bg-green-100 selection:text-green-800 min-h-screen antialiased overflow-x-hidden">
+    <div className= "bg-white text-zinc-900 selection:bg-green-100 selection:text-green-800 min-h-screen antialiased overflow-x-hidden font-sans">
       <section className="relative pt-32 pb-24 sm:pt-40 sm:pb-32 ">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center relative z-10">
           <motion.div
