@@ -1,275 +1,429 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-// Stagger variants for smooth entry animations
-const containerVariants = {
+// Strict type-safe variants preventing compilation errors
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.05 },
   },
 };
 
-const itemVariants = {
-  hidden: { y: 30, opacity: 0 },
+const itemVariants: Variants = {
+  hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
     opacity: 1,
-    transition: { type: "spring", stiffness: 100, damping: 20 },
+    transition: { type: "spring", stiffness: 120, damping: 24 },
   },
 };
 
-export default function LandingPage() {
+// Data models for structural validation
+const journeyStages = [
+  {
+    stage: "LEARN",
+    title: "Advanced Engineering Tracks",
+    desc: "Peer-led bootcamps tackling concurrent systems, distributed networks, and modern UI architectures.",
+    outcome: "Systems Mastery",
+  },
+  {
+    stage: "COMPETE",
+    title: "High-Intensity Sprints",
+    desc: "Algorithmic invitationals and rapid hackathons built to push technical limits under production duress.",
+    outcome: "Velocity & Resilience",
+  },
+  {
+    stage: "BUILD",
+    title: "Collaborative Labs",
+    desc: "Cross-disciplinary teams converging to turn conceptual blueprints into optimized software architectures.",
+    outcome: "Product Ownership",
+  },
+  {
+    stage: "LEAD",
+    title: "Ecosystem Mentorship",
+    desc: "Stepping into operational roles, managing sprints, and governing community infrastructure initiatives.",
+    outcome: "Organizational Scale",
+  },
+  {
+    stage: "IMPACT",
+    title: "The Venture Incubator",
+    desc: "Shipping production-ready, pro-bono systems to real-world clients and local enterprise hubs.",
+    outcome: "Regional Transformation",
+  },
+];
+
+const featuredProjects = [
+  {
+    title: "Nexus Analytics Protocol",
+    category: "Open Source / Infrastructure",
+    desc: "A zero-overhead telemetry client processing over 10M events/sec with edge localization.",
+    tags: ["Next.js", "Rust", "WASM"],
+  },
+  {
+    title: "Aura Design Engine",
+    category: "Community Tooling",
+    desc: "A headless, spatial token translator built for highly collaborative product teams.",
+    tags: ["TypeScript", "GSAP", "Tailwind"],
+  },
+];
+
+export default function RedesignedLandingPage() {
+  const trustSectionRef = useRef<HTMLDivElement>(null);
+
+  // GSAP ScrollTrigger Integration Strategy hook
+  useEffect(() => {
+    // Dynamically import GSAP on client-side mount to preserve Next.js Server Side Rendering (SSR) compatibility
+    const initGSAP = async () => {
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Smooth parallax and revealing effects for the Journey Timeline
+      gsap.fromTo(
+        ".timeline-line",
+        { height: "0%" },
+        {
+          height: "100%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".timeline-container",
+            start: "top 20%",
+            end: "bottom 80%",
+            scrub: true,
+          },
+        },
+      );
+    };
+    initGSAP();
+  }, []);
+
   return (
-    <div className="relative isolate overflow-hidden min-h-screen py-20 sm:py-28">
-      {/* 1. HERO SECTION */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col items-center justify-center max-w-3xl mx-auto"
-        >
-          {/* Faculty Badge */}
-          <motion.span
-            variants={itemVariants}
-            className="px-3 py-1 text-xs font-semibold tracking-wider text-cyan-400 uppercase bg-cyan-500/10 border border-cyan-500/20 rounded-full mb-6"
-          >
-            Faculty of Software Engineering
-          </motion.span>
-
-          {/* High-Impact Heading */}
-          <motion.h1
-            variants={itemVariants}
-            className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl bg-gradient-to-b from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent leading-none pb-4"
-          >
-            Catalyzing the Future of Software Construction
-          </motion.h1>
-
-          {/* Sub-headline */}
-          <motion.p
-            variants={itemVariants}
-            className="mt-6 text-lg leading-8 text-zinc-400 font-medium"
-          >
-            Bridging the gap between academic theory and real-world execution.
-            Join an active student-led ecosystem of advanced bootcamps,
-            architectural trials, and live project incubation.
-          </motion.p>
-
-          {/* Interactive CTAs */}
+    <div className="bg-white text-zinc-900 selection:bg-green-100 selection:text-green-800 min-h-screen antialiased overflow-x-hidden">
+      <section className="relative pt-32 pb-24 sm:pt-40 sm:pb-32 ">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center relative z-10">
           <motion.div
-            variants={itemVariants}
-            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="max-w-4xl mx-auto flex flex-col items-center"
           >
-            <Link href="/incubator" className="w-full sm:w-auto">
-              <motion.button
-                whileHover={{
-                  scale: 1.03,
-                  boxShadow: "0 0 20px rgba(6, 182, 212, 0.4)",
-                }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl text-base font-semibold text-zinc-950 bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300"
-              >
-                Enter Incubator Portal
-              </motion.button>
-            </Link>
 
-            <Link href="/learn" className="w-full sm:w-auto">
-              <motion.button
-                whileHover={{
-                  scale: 1.03,
-                  backgroundColor: "rgba(39, 39, 42, 0.8)",
-                }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl text-base font-semibold text-white bg-zinc-900/50 border border-zinc-800 transition-all duration-300 backdrop-blur-sm"
-              >
-                Explore Tracks
-              </motion.button>
-            </Link>
+            {/* Apple-style Display Headline */}
+            <motion.h1
+              variants={itemVariants}
+              className="text-5xl font-semibold tracking-tight text-zinc-900 sm:text-7xl lg:text-8xl leading-none max-w-3xl"
+            >
+              Where Future Technology Leaders{" "}
+              <span className="text-green-600">Are Built.</span>
+            </motion.h1>
+
+            <motion.p
+              variants={itemVariants}
+              className="mt-8 text-lg sm:text-xl text-zinc-500 font-normal leading-relaxed max-w-2xl"
+            >
+              Join an elite student-driven ecosystem bridging the space between
+              computer science theory and production-grade execution[cite: 139].
+              We do not just code—we build systems that endure.
+            </motion.p>
+
+            {/* Strategic Linear-style Call to Actions */}
+            <motion.div
+              variants={itemVariants}
+              className="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+            >
+              <Link href="/incubator" className="w-full sm:w-auto">
+                <motion.button
+                  whileHover={{ scale: 1.01, translateY: -1 }}
+                  whileTap={{ scale: 0.99 }}
+                  className="w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-semibold text-white bg-green-600 hover:bg-green-700 shadow-lg shadow-green-600/10 transition-colors duration-200"
+                >
+                  Join the Movement
+                </motion.button>
+              </Link>
+              <Link href="/learn" className="w-full sm:w-auto">
+                <motion.button
+                  whileHover={{ scale: 1.01, backgroundColor: "#f4f4f5" }}
+                  whileTap={{ scale: 0.99 }}
+                  className="w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-semibold text-zinc-600 bg-white border border-zinc-200 shadow-sm transition-colors duration-200"
+                >
+                  Explore Core Tracks
+                </motion.button>
+              </Link>
+            </motion.div>
+
+            {/* Micro Social Proof Layer */}
+            <motion.div
+              variants={itemVariants}
+              className="mt-16 flex items-center gap-6 border-t border-zinc-100 pt-8 w-full justify-center"
+            >
+              <div className="text-center">
+                <p className="text-2xl font-bold text-zinc-900">450+</p>
+                <p className="text-xs text-zinc-400 uppercase font-medium tracking-wider">
+                  Active Builders
+                </p>
+              </div>
+              <div className="h-8 w-px bg-zinc-200" />
+              <div className="text-center">
+                <p className="text-2xl font-bold text-zinc-900">14</p>
+                <p className="text-xs text-zinc-400 uppercase font-medium tracking-wider">
+                  Shipped Systems
+                </p>
+              </div>
+              <div className="h-8 w-px bg-zinc-200" />
+              <div className="text-center">
+                <p className="text-2xl font-bold text-zinc-900">24/7</p>
+                <p className="text-xs text-zinc-400 uppercase font-medium tracking-wider">
+                  Lab Innovation
+                </p>
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
       </section>
 
-      {/* 2. CORE PILLARS SECTION */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-32 sm:mt-44 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Built Upon Three Core Operational Pillars
+      {/* 2. INSTITUTIONAL TRUST SECTION */}
+      <section
+        ref={trustSectionRef}
+        className="py-12 border-y border-zinc-100 bg-zinc-50/50"
+      >
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <p className="text-center text-xs font-semibold tracking-widest text-zinc-400 uppercase">
+            Recognized and Supported By Leading Institutions
+          </p>
+          <div className="mt-8 grid grid-cols-2 gap-8 md:grid-cols-4 items-center justify-items-center opacity-60 grayscale filter contrast-200">
+            <span className="font-bold tracking-tight text-lg text-zinc-800">
+              FACULTY AFFILIATED
+            </span>{" "}
+            [cite: 139]
+            <span className="font-semibold tracking-tight text-lg text-zinc-800">
+              INNOVATION LABS
+            </span>
+            <span className="font-medium tracking-wider text-lg text-zinc-800">
+              MIT REGIONAL NETWORKS
+            </span>
+            <span className="font-bold tracking-tight text-lg text-zinc-800">
+              YC ALUMNI HUBS
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. THE JOURNEY TIMELINE (REPLACING THE 3 CARDS) */}
+      <section className="py-24 sm:py-32 max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto text-center mb-24">
+          <h2 className="text-xs font-bold tracking-widest text-green-600 uppercase">
+            The Blueprint
           </h2>
-          <p className="mt-4 text-zinc-400">
-            Engineered to accelerate technical maturity, collaboration, and
-            systemic regional impact.
+          <p className="mt-3 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
+            A Visual Engine of Growth
+          </p>
+          <p className="mt-4 text-zinc-500 text-base">
+            We have systematically broken down professional technical maturity
+            into five progressive milestones.
           </p>
         </div>
 
-        <motion.div
-          className="grid grid-cols-1 gap-8 md:grid-cols-3"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          {/* Pillar 1: Learn */}
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ y: -8 }}
-            className="relative overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900/20 p-8 backdrop-blur-sm transition-all duration-300 hover:border-zinc-700/50 group"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400 mb-6 border border-cyan-500/20">
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-white mb-3">
-              1. Learn (Bootcamps)
-            </h3>
-            <p className="text-sm leading-6 text-zinc-400">
-              Rigorous, peer-led engineering tracks covering concurrent systems,
-              cloud architecture, and modern full-stack methodologies.
-            </p>
-            <div className="mt-6">
-              <Link
-                href="/learn"
-                className="text-sm font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-200"
-              >
-                View Tracks <span>→</span>
-              </Link>
-            </div>
-          </motion.div>
+        <div className="relative timeline-container max-w-4xl mx-auto">
+          {/* Central Connecting Axis */}
+          <div className="absolute left-4 sm:left-1/2 top-0 bottom-0 w-0.5 bg-zinc-100 transform -translate-x-1/2" />
+          <div className="absolute left-4 sm:left-1/2 top-0 w-0.5 bg-green-500 transform -translate-x-1/2 timeline-line origin-top" />
 
-          {/* Pillar 2: Compete */}
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ y: -8 }}
-            className="relative overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900/20 p-8 backdrop-blur-sm transition-all duration-300 hover:border-zinc-700/50 group"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-500/10 text-purple-400 mb-6 border border-purple-500/20">
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
+          {journeyStages.map((item, idx) => (
+            <div
+              key={idx}
+              className={cn(
+                "relative flex flex-col sm:flex-row items-start mb-16 sm:mb-24",
+                idx % 2 === 0 ? "sm:flex-row-reverse" : "",
+              )}
+            >
+              <div className="absolute left-4 sm:left-1/2 w-3 h-3 rounded-full bg-white border-2 border-green-600 transform -translate-x-1/2 top-2 z-10" />
+              <div className="w-full sm:w-1/2 pl-12 sm:pl-0 sm:px-12">
+                <div className="p-6 bg-white border border-zinc-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <span className="text-xs font-bold text-green-600 tracking-widest uppercase">
+                    {item.stage}
+                  </span>
+                  <h3 className="text-xl font-medium text-zinc-900 mt-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-zinc-500 text-sm mt-2 leading-relaxed">
+                    {item.desc}
+                  </p>
+                  <div className="mt-4 pt-4 border-t border-zinc-100 flex items-center justify-between">
+                    <span className="text-xs font-medium text-zinc-400 uppercase tracking-wider">
+                      Core Outcome
+                    </span>
+                    <span className="text-xs font-semibold text-zinc-700 bg-zinc-100 px-2 py-1 rounded">
+                      {item.outcome}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="hidden sm:block w-1/2" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">
-              2. Compete (Sprints)
-            </h3>
-            <p className="text-sm leading-6 text-zinc-400">
-              High-intensity algorithmic challenges, sprint hackathons, and
-              multi-campus invitationals engineered to push problem-solving
-              thresholds.
-            </p>
-            <div className="mt-6">
-              <Link
-                href="/compete"
-                className="text-sm font-semibold text-purple-400 hover:text-purple-300 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-200"
-              >
-                Join Challenges <span>→</span>
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Pillar 3: Impact */}
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ y: -8 }}
-            className="relative overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900/20 p-8 backdrop-blur-sm transition-all duration-300 hover:border-zinc-700/50 group"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400 mb-6 border border-blue-500/20">
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-white mb-3">
-              3. Impact (Incubator)
-            </h3>
-            <p className="text-sm leading-6 text-zinc-400">
-              Constructing real, production-ready systems for local clients.
-              Design and engineering students synchronized to ship real software
-              impact.
-            </p>
-            <div className="mt-6">
-              <Link
-                href="/incubator"
-                className="text-sm font-semibold text-blue-400 hover:text-blue-300 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-200"
-              >
-                Explore Portal <span>→</span>
-              </Link>
-            </div>
-          </motion.div>
-        </motion.div>
+          ))}
+        </div>
       </section>
 
-      {/* 3. QUICK STATS PANEL */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-32 relative z-10">
-        <div className="rounded-2xl border border-zinc-800/50 bg-zinc-900/10 p-8 sm:p-12 backdrop-blur-md">
-          <div className="grid grid-cols-2 gap-y-10 gap-x-8 md:grid-cols-4 text-center">
+      {/* 4. PORTFOLIO-GRADE FEATURED PROJECTS */}
+      <section className="py-24 sm:py-32 bg-zinc-50 border-y border-zinc-100">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-16">
             <div>
-              <p className="text-3xl font-extrabold text-cyan-400 sm:text-4xl">
-                100%
-              </p>
-              <p className="mt-2 text-sm font-medium text-zinc-400 uppercase tracking-wider">
-                Student Driven
+              <h2 className="text-xs font-bold tracking-widest text-green-600 uppercase">
+                Showcase
+              </h2>
+              <p className="mt-3 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
+                Engineered in Our Incubator
               </p>
             </div>
-            <div>
-              <p className="text-3xl font-extrabold text-white sm:text-4xl">
-                3
-              </p>
-              <p className="mt-2 text-sm font-medium text-zinc-400 uppercase tracking-wider">
-                Core Pillars
+            <Link
+              href="/incubator"
+              className="text-sm font-semibold text-green-600 hover:text-green-700 mt-4 sm:mt-0 group flex items-center gap-1"
+            >
+              View All Shipped Projects{" "}
+              <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">
+                →
+              </span>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {featuredProjects.map((proj, idx) => (
+              <motion.div
+                key={idx}
+                whileHover={{ y: -4 }}
+                className="bg-white border border-zinc-200 p-8 rounded-2xl shadow-sm flex flex-col justify-between group transition-all duration-200"
+              >
+                <div>
+                  <span className="text-xs font-medium text-zinc-400 uppercase tracking-wider">
+                    {proj.category}
+                  </span>
+                  <h3 className="text-2xl font-medium text-zinc-900 mt-2 group-hover:text-green-600 transition-colors duration-200">
+                    {proj.title}
+                  </h3>
+                  <p className="text-zinc-500 text-sm mt-4 leading-relaxed">
+                    {proj.desc}
+                  </p>
+                </div>
+                <div className="mt-8 flex gap-2 flex-wrap">
+                  {proj.tags.map((tag, tIdx) => (
+                    <span
+                      key={tIdx}
+                      className="text-xs text-zinc-500 bg-zinc-50 px-2.5 py-1 rounded-md border border-zinc-200/60 font-mono"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. COMMUNITY EXPERIENCE (BENTO GRID) */}
+      <section className="py-24 sm:py-32 max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto text-center mb-20">
+          <h2 className="text-xs font-bold tracking-widest text-green-600 uppercase">
+            Ecosystem Culture
+          </h2>
+          <p className="mt-3 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
+            Life Inside the Catalyst Lab
+          </p>
+        </div>
+
+        {/* Bento Grid Architecture */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[240px]">
+          {/* Card 1: Large Statement Grid */}
+          <div className="md:col-span-2 md:row-span-2 rounded-3xl border border-zinc-200 bg-white p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-50/40 to-transparent pointer-events-none" />
+            <div className="max-w-md relative z-10">
+              <span className="text-xs font-bold tracking-widest text-green-600 uppercase">
+                01 / COLLABORATION
+              </span>
+              <h3 className="text-3xl font-medium tracking-tight text-zinc-900 mt-4">
+                Hackathons, Bootcamps, & Midnight Deployments.
+              </h3>
+              <p className="text-zinc-500 text-sm mt-4 leading-relaxed">
+                We sync design and engineering students seamlessly. No
+                theoretical essays—just continuous sprints, cross-stack
+                architectural tests, and live deployment configurations.
               </p>
             </div>
+            <div className="flex gap-4 mt-6 relative z-10">
+              <span className="text-xs font-medium text-zinc-600 bg-zinc-100 px-3 py-1.5 rounded-full">
+                Weekly Hack Nights
+              </span>
+              <span className="text-xs font-medium text-zinc-600 bg-zinc-100 px-3 py-1.5 rounded-full">
+                Cross-Disciplinary Hubs
+              </span>
+            </div>
+          </div>
+
+          {/* Card 2: Interactive Metrics Grid */}
+          <div className="rounded-3xl border border-zinc-200 bg-zinc-900 text-white p-8 flex flex-col justify-between shadow-sm">
             <div>
-              <p className="text-3xl font-extrabold text-white sm:text-4xl">
-                Tier-1
-              </p>
-              <p className="mt-2 text-sm font-medium text-zinc-400 uppercase tracking-wider">
-                Academic Blueprint
-              </p>
+              <span className="text-xs font-bold tracking-widest text-green-500 uppercase">
+                02 / VELOCITY
+              </span>
+              <h3 className="text-xl font-normal tracking-tight text-zinc-300 mt-2">
+                Continuous Pipeline Delivery
+              </h3>
             </div>
             <div>
-              <p className="text-3xl font-extrabold text-blue-400 sm:text-4xl">
-                24/7
-              </p>
-              <p className="mt-2 text-sm font-medium text-zinc-400 uppercase tracking-wider">
-                Continuous Innovation
+              <span className="text-5xl font-mono font-bold tracking-tight text-green-500">
+                99.8%
+              </span>
+              <p className="text-xs text-zinc-400 mt-1 uppercase tracking-wider">
+                Test Suite Coverage Standard
               </p>
             </div>
+          </div>
+
+          {/* Card 3: Portfolio Placement Grid */}
+          <div className="rounded-3xl border border-zinc-200 bg-white p-8 flex flex-col justify-between shadow-sm group hover:border-zinc-300 transition-colors duration-200">
+            <div>
+              <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">
+                03 / OUTCOMES
+              </span>
+              <h3 className="text-xl font-medium text-zinc-900 mt-2">
+                Industry Preparedness
+              </h3>
+              <p className="text-zinc-500 text-xs mt-2">
+                Our alumni launch venture-backed startups or transition natively
+                into Tier-1 engineering roles.
+              </p>
+            </div>
+            <span className="text-xs font-semibold text-green-600 flex items-center gap-1">
+              Our Placements Archive <span>→</span>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. EMOTIONAL CLOSING CTA */}
+      <section className="py-24 bg-zinc-900 text-white relative isolate overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:32px_32px] opacity-40" />
+        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
+          <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight">
+            Your Future in Technology Starts Here.
+          </h2>
+          <p className="mt-6 text-base sm:text-lg text-zinc-400 max-w-xl mx-auto leading-relaxed">
+            Stop spectating from the sidelines of the academic tech stack. Join
+            a focused movement of builders, creators, innovators, and systems
+            engineers.
+          </p>
+          <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
+            <Link href="/incubator" className="w-full sm:w-auto">
+              <button className="w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-semibold bg-green-500 hover:bg-green-600 text-zinc-950 transition-colors duration-200">
+                Submit Application
+              </button>
+            </Link>
           </div>
         </div>
       </section>

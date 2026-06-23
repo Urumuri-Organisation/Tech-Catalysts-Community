@@ -1,36 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 @import "tailwindcss";
 
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #0f172a;
+
+  --color-primary: #16a34a;
+  --color-primary-hover: #15803d;
+  --color-primary-light: #f0fdf4;
+
+  /* Neutral Gray Scales */
+  --color-muted: #64748b;
+  --color-surface: #f8fafc;
+  --color-border: #e2e8f0;
+}
+
+/* 2. BASE CORE ELEMENTS STYLE OVERRIDES */
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 142.1 76.2% 36.3%;
+    --radius: 0.75rem;
   }
 }
 
-html {
+html,
+body {
+  font-family: "Rubik", sans-serif;
   scroll-behavior: smooth;
-  background-color: #09090b;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom sleek scrollbar for a premium feel */
+/* 3. PREMIUM LIGHT-MODE WEBKit SCROLLBAR */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: var(--color-background);
 }
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
-  border-radius: 4px;
+  background: #cbd5e1;
+  border-radius: 100px;
+  border: 2px solid var(--color-background);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: #94a3b8;
 }
 
-/* Hardware-accelerated tech grid background */
 .tech-grid {
-  background-image: 
-    linear-gradient(to right, rgba(63, 63, 70, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(63, 63, 70, 0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
+  position: relative;
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* 5. INTERACTIVE COMPONENT UTILITIES */
+.premium-card-glow {
+  position: relative;
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.premium-card-glow:hover {
+  border-color: rgba(22, 163, 74, 0.2);
+  box-shadow:
+    0 10px 30px -10px rgba(22, 163, 74, 0.05),
+    0 1px 3px -1px rgba(0, 0, 0, 0.02);
 }

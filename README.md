@@ -150,7 +150,7 @@ The Learn Pillar focuses on developing practical skills through peer learning an
 
 ---
 
-# ⚡ Pillar Two: Compete
+# Pillar Two: Compete
 
 The Compete Pillar challenges members to apply their skills in real-world scenarios.
 
