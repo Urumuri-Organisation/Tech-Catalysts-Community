@@ -69,7 +69,7 @@ export default function Navbar() {
 
         {/* Call to Action Button */}
         <div className="hidden md:flex items-center">
-          <Link href="/incubator">
+          <Link href="/join">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
