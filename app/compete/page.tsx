@@ -672,16 +672,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-white border-t border-neutral-200/60 py-12 text-center text-xs text-neutral-400 font-medium">
-        <p>
-          © 2026 The Tech Catalyst Community Student Organizing Committee •
-          Faculty of Software Engineering.
-        </p>
-        <p className="mt-1 font-mono">
-          Monitored Governance Protocol & Master Blueprint Engaged.
-        </p>
-      </footer>
     </div>
   );
 }
